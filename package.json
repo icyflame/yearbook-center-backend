@@ -1,5 +1,5 @@
 {
-  "name": "restify-yearbook-center",
+  "name": "yearbook-center-backend",
   "version": "0.0.1",
   "description": "The IITKGP Yearbook center",
   "main": "index.js",
