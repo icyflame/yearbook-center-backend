@@ -1,5 +1,6 @@
 var restify = require('restify');
 var mongoose = require('mongoose');
+var util = require('util');
 
 var server = restify.createServer();
 
@@ -35,13 +36,28 @@ server.get('/ping', function (req, res) {
 });
 
 server.post('/user', function (req, res) {
-
   if (!(req.params.username && req.params.name && req.params.password
     && req.params.email && req.params.rollnum)) {
       res.send(400, 'Some fields are missing.');
     } else {
       var newUser = new User(req.params);
-      res.send(201, 'New user created.');
+      User.count('*', function (err, count) {
+        console.log(count);
+        newUser.id = count + 1;
+        newUser.save(function (err) {
+          console.log(util.inspect(err));
+          if (err) {
+            if (err.name === 'ValidationError') {
+              res.send(400, {
+                name: err.name,
+                errors: err.errors
+              });
+            }
+          } else {
+            res.send(201, 'New user created');
+          }
+        });
+      });
     }
 });
 
