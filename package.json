@@ -1,0 +1,16 @@
+{
+  "name": "restify-yearbook-center",
+  "version": "0.0.1",
+  "description": "The IITKGP Yearbook center",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Siddharth Kannan <kannan.siddharth12@gmail.com> (http://icyflame.github.io)",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^4.0.6",
+    "restify": "^3.0.3"
+  }
+}
