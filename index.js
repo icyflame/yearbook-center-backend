@@ -1,6 +1,7 @@
 var restify = require('restify');
 var mongoose = require('mongoose');
 var util = require('util');
+var crypto = require('crypto');
 
 var server = restify.createServer();
 
@@ -38,12 +39,12 @@ server.get('/ping', function (req, res) {
 server.post('/user', function (req, res) {
   if (!(req.params.username && req.params.name && req.params.password
     && req.params.email && req.params.rollnum)) {
-      res.send(400, 'Some fields are missing.');
+      res.send(400, 'Required fields missing.');
     } else {
       var newUser = new User(req.params);
       User.count('*', function (err, count) {
         console.log(count);
-        newUser.id = count + 1;
+        newUser.num_id = count + 1;
         newUser.save(function (err) {
           console.log(util.inspect(err));
           if (err) {
@@ -59,6 +60,38 @@ server.post('/user', function (req, res) {
         });
       });
     }
+});
+
+server.post('/user/login', function (req, res) {
+  if (!(req.params.username && req.params.password)) {
+    res.send(400, 'Required fields missing.');
+  } else {
+    User.findOne({ username: req.params.username }, function (err, user) {
+      if (err) {
+        res.send(503, err)
+      }
+
+      if (user.password === req.params.password) {
+
+        var temp_token = crypto.randomBytes(20).toString('hex');
+
+        user.session_token = temp_token;
+
+        user.save(function (err) {
+          if (err) {
+            console.error(err);
+            res.send(503, err);
+          } else {
+            res.send(200, {
+              token: temp_token
+            });
+          }
+        });
+      } else {
+        res.send(401, 'Bad Password');
+      }
+    });
+  }
 });
 
 server.get('/user/:id', function (req, res) {
