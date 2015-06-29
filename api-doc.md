@@ -1,13 +1,25 @@
 # API Documentation
 
-### Base URL :
+#### Base URL : http://localhost:5000/ (development env)
 
 #### POST /user
 
 > Create a user
 
-**Errors generated**
+**Data Sent**
 
-- **ValidationError**
+_All the fields are required_
 
-  Find more details in the returned JSON object's `errors` key.
+| Name | Type |
+| :------------- | :------------- |
+| email | String (unique) |
+| username | String (unique) |
+| rollnum | String (unique) |
+| name | String |
+| password | String, SHA256 hash |
+
+**Data returned**
+
+- 400 in case of missing required fields
+- 400 in case of `ValidationError`, with error object part of returned JSON
+- 201 in case of successful user creation
