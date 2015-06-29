@@ -43,10 +43,8 @@ server.post('/user', function (req, res) {
     } else {
       var newUser = new User(req.params);
       User.count('*', function (err, count) {
-        console.log(count);
         newUser.num_id = count + 1;
         newUser.save(function (err) {
-          console.log(util.inspect(err));
           if (err) {
             if (err.name === 'ValidationError') {
               res.send(400, {
@@ -71,10 +69,15 @@ server.post('/user/login', function (req, res) {
         res.send(503, err)
       }
 
+      if (!user) {
+        res.send(404, {
+          'message': 'User does not exist.'
+        });
+      }
+
       if (user.password === req.params.password) {
 
         var temp_token = crypto.randomBytes(20).toString('hex');
-
         user.session_token = temp_token;
 
         user.save(function (err) {
