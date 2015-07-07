@@ -35,7 +35,7 @@ _All the fields are required_
 | Name | Type |
 | :------------- | :------------- |
 | username | String |
-| password | String |
+| password | String, SHA256 hash |
 
 **Data returned**
 
