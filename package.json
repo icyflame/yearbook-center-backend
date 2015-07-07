@@ -10,6 +10,7 @@
   "author": "Siddharth Kannan <kannan.siddharth12@gmail.com> (http://icyflame.github.io)",
   "license": "MIT",
   "dependencies": {
+    "is-hexdigest": "^1.0.0",
     "mongoose": "^4.0.6",
     "mongoose-unique-validator": "^0.4.1",
     "restify": "^3.0.3"

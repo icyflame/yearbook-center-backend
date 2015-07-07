@@ -2,6 +2,7 @@ var restify = require('restify');
 var mongoose = require('mongoose');
 var util = require('util');
 var crypto = require('crypto');
+var isHexdigest = require('is-hexdigest');
 
 var server = restify.createServer();
 
@@ -40,6 +41,8 @@ server.post('/user', function (req, res) {
   if (!(req.params.username && req.params.name && req.params.password
     && req.params.email && req.params.rollnum)) {
       res.send(400, 'Required fields missing.');
+    } else if (!isHexdigest(req.params.password)) {
+      res.send(400, 'Password is not a valid SHA256 hash');
     } else {
       var newUser = new User(req.params);
       User.count('*', function (err, count) {
@@ -53,7 +56,9 @@ server.post('/user', function (req, res) {
               });
             }
           } else {
-            res.send(201, 'New user created');
+            res.send(201, {
+              'message': 'New user created'
+            });
           }
         });
       });
@@ -63,6 +68,8 @@ server.post('/user', function (req, res) {
 server.post('/user/login', function (req, res) {
   if (!(req.params.username && req.params.password)) {
     res.send(400, 'Required fields missing.');
+  } else if (!isHexdigest(req.params.password)) {
+    res.send(400, 'Password is not a valid SHA256 hash.');
   } else {
     User.findOne({ username: req.params.username }, function (err, user) {
       if (err) {
@@ -98,7 +105,14 @@ server.post('/user/login', function (req, res) {
 });
 
 server.get('/user/:id', function (req, res) {
-  res.send(200, "Successful");
+  User.findOne({ num_id: req.params.id }, function (err, user) {
+    res.json({
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      rollnum: user.rollnum
+    });
+  });
 });
 
 var port = process.env.PORT || 5000;
