@@ -22,7 +22,14 @@ _All the fields are required_
 
 - 400 in case of missing required fields
 - 400 in case of `ValidationError`, with error object part of returned JSON
-- 201 in case of successful user creation
+- 201 in case of successful user creation with JSON object:
+
+  ```json
+  'message': 'New user created',
+  'num_id': 1
+  ```
+
+  _1_ will be replaced with approximate ID for the created user.
 
 #### POST /user/login
 
