@@ -28,18 +28,15 @@ server.use(restify.bodyParser());
 
 mongoose.connect(process.env.MONGOLAB_DB_URL);
 
-var userSchema = require('./schema/user.js');
-var User = mongoose.model('User', userSchema); // eslint-disable-line
+var userActions = require('./lib/userActions.js');
 
-var signUpUser = require('./lib/userActions.js').signUpUser;
-var loginUser = require('./lib/userActions.js').loginUser;
-var getUserDetails = require('./lib/userActions.js').getUserDetails;
+server.post('/user', userActions.signUpUser);
 
-server.post('/user', signUpUser);
+server.post('/user/login', userActions.loginUser);
 
-server.post('/user/login', loginUser);
+server.get('/user/data/:id', userActions.getUserDetails);
 
-server.get('/user/:id', getUserDetails);
+server.get('/user/logout', userActions.logoutUser);
 
 server.get('/ping', function (req, res) {
   res.json('Hello! The API is online!');
