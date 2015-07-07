@@ -33,10 +33,6 @@ mongoose.connect(process.env.MONGOLAB_DB_URL);
 var userSchema = require('./schema/user.js');
 var User = mongoose.model('User', userSchema);
 
-server.get('/ping', function (req, res) {
-  res.json("Hello! The API is online!");
-});
-
 server.post('/user', function (req, res) {
   if (!(req.params.username && req.params.name && req.params.password
     && req.params.email && req.params.rollnum)) {
@@ -113,6 +109,10 @@ server.get('/user/:id', function (req, res) {
       rollnum: user.rollnum
     });
   });
+});
+
+server.get('/ping', function (req, res) {
+  res.json("Hello! The API is online!");
 });
 
 var port = process.env.PORT || 5000;
