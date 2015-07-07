@@ -47,3 +47,21 @@ _All the fields are required_
 
     This token must be sent in the object / header in every subsequent request
     that requires user authentication.
+
+#### GET /user/data/:id
+
+> Get the details of user with num_id `id`
+
+**Data returned**
+
+- 200 with a JSON object with keys `name, username, email, rollnum`.
+
+#### GET /user/logout?token=abcdefgh
+
+_Token must be a valid session token that was returned when
+the login action was performed_
+
+**Data returned**
+
+- 404 in case of corrupted session token.
+- 200 in case of successfully logout with `message`: `Logged out successfully`.
