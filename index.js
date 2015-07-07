@@ -30,16 +30,20 @@ mongoose.connect(process.env.MONGOLAB_DB_URL);
 
 var userActions = require('./lib/userActions.js');
 
+server.get('/user', userActions.getAllUsers);
+
 server.post('/user', userActions.signUpUser);
 
 server.post('/user/login', userActions.loginUser);
 
-server.get('/user/data/:id', userActions.getUserDetails);
-
 server.get('/user/logout', userActions.logoutUser);
 
+server.get('/user/:id', userActions.getUserDetails);
+
 server.get('/ping', function (req, res) {
-  res.json('Hello! The API is online!');
+  res.json({
+    'message': 'Hello! The API is online!'
+  });
 });
 
 var port = process.env.PORT || 5000;
