@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGOLAB_DB_URL);
 
 var userActions = require('./lib/userActions.js');
 
-server.get('/user', userActions.getAllUsers);
+server.get('/users', userActions.getAllUsers);
 
 server.post('/user', userActions.signUpUser);
 

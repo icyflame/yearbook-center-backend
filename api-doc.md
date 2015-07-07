@@ -65,3 +65,24 @@ the login action was performed_
 
 - 404 in case of corrupted session token.
 - 200 in case of successfully logout with `message`: `Logged out successfully`.
+
+#### GET /users
+
+> Get an array of all the users
+
+**Data returned**
+
+- 200 with an array, that consists of JSON objects, representing each user :-
+
+```json
+[
+  {
+    "_id": "559bfaf481208e8421cc465e",
+    "num_id": 1,
+    "username": "icyflame",
+    "name": "Siddharth Kannan",
+    "email": "siddharth@g,com",
+    "rollnum": "13TH42312"
+  }
+]
+```
