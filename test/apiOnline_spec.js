@@ -16,7 +16,6 @@ frisby.create('Check that the API is online')
   })
   .toss();
 
-
   /*
   .expectJSONTypes({
     id: Number,
